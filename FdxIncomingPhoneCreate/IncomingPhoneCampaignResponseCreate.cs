@@ -31,7 +31,8 @@ namespace FdxIncomingPhoneCreate
                     if (phoneCall.LogicalName != "phonecall")
                         return;
                     //Check if the Phone Call record is Completed either with Contacted or Demo Set status
-                    if (phoneCall.Attributes.Contains("statuscode") && (((OptionSetValue)phoneCall.Attributes["statuscode"]).Value == 2 || ((OptionSetValue)phoneCall.Attributes["statuscode"]).Value == 756480004 || ((OptionSetValue)phoneCall.Attributes["statuscode"]).Value == 756480005)) 
+                    //if (phoneCall.Attributes.Contains("statuscode") && (((OptionSetValue)phoneCall.Attributes["statuscode"]).Value == 2 || ((OptionSetValue)phoneCall.Attributes["statuscode"]).Value == 756480004 || ((OptionSetValue)phoneCall.Attributes["statuscode"]).Value == 756480005))
+                    if (phoneCall.Attributes.Contains("category") && (phoneCall.Attributes["category"].ToString() == "Contacted" || phoneCall.Attributes["category"].ToString() == "Demo Set" || phoneCall.Attributes["category"].ToString() == "Transferred")) 
                     {
                         step = 3;
 
