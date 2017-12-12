@@ -436,14 +436,14 @@ namespace FdxIncomingPhoneCreate
                     }
                 }
             }
-            catch(FaultException<OrganizationServiceFault> ex)
+            catch (FaultException<OrganizationServiceFault> ex)
             {
-                throw new Exception(string.Format("Exception occurred at Step = {0}, with message: {1}.", step, ex.Message));
+                throw new InvalidPluginExecutionException(string.Format("An error occurred in the IncomingPhoneCampaignResponseCreate plug-in at Step {0}.", step), ex);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                //tracingService.Trace("Error when Phone Call is completed at: step {0}; Message: {1}", step, ex.Message);
-                throw new Exception(ex.Message);
+                tracingService.Trace("IncomingPhoneCampaignResponseCreate: step {0}, {1}", step, ex.ToString());
+                throw;
             }
         }
     }
