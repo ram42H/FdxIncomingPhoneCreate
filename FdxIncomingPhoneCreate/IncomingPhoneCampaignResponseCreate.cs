@@ -176,8 +176,16 @@ namespace FdxIncomingPhoneCreate
                                                 {
                                                     campaignResponse.Attributes["fdx_address1_country"] = lead.Attributes["address1_country"].ToString();
                                                 }
+
+                                                //Smart-905
+                                                if (!lead.Attributes.Contains("campaignid") && ((OptionSetValue)lead.Attributes["leadsourcecode"]).Value == 3)
+                                                {
+                                                    campaignResponse.Attributes["fdx_sourcecampaignresponse"] = true;
+                                                }
+
                                                 step = 16;
-                                                service.Create(campaignResponse);
+                                                Guid crGuid = Guid.Empty;
+                                                crGuid = service.Create(campaignResponse);
                                                 step = 17;
 
                                                 #endregion
@@ -191,6 +199,10 @@ namespace FdxIncomingPhoneCreate
 
                                                     LeadUpdate.Id = ((EntityReference)phoneCallRecord.Attributes["regardingobjectid"]).Id;
                                                     LeadUpdate.Attributes["campaignid"] = new EntityReference("campaign", ((EntityReference)campaignResponse.Attributes["regardingobjectid"]).Id);
+
+                                                    //Smart-905
+                                                    LeadUpdate.Attributes["relatedobjectid"] = new EntityReference("campaignresponse", crGuid);
+
                                                     step = 172;
                                                     service.Update(LeadUpdate);
                                                 }
